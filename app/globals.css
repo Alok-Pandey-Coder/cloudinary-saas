@@ -3,6 +3,7 @@
 @plugin "daisyui" {
   themes: dark --prefersdark;
 }
+@layer theme, base, clerk, components, utilities;
 
 :root {
   --background: #ffffff;

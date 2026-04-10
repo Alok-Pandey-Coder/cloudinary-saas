@@ -3,7 +3,6 @@ import {v2 as cloudinary} from 'cloudinary';
 import { auth } from '@clerk/nextjs/server';
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from '@/generated/prisma/client';
-import { error } from 'console';
 
 const connectionString = `${process.env.DATABASE_URL}`;
 const adapter = new PrismaPg({ connectionString });

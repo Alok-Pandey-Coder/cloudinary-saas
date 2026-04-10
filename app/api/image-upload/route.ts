@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import {v2 as cloudinary} from 'cloudinary';
 import { auth } from '@clerk/nextjs/server';
-import { error } from 'console';
+
 
 
 cloudinary.config({
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     const result = await new Promise<uploadCloudinaryResult>(
       (resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
-          {folder: "next-cludinary-upload"},
+          {folder: "next-cloudinary-upload"},
           (error, result) => {
             if(error) {
               reject(error);

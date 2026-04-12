@@ -55,24 +55,29 @@ export default function SocialShare() {
     }
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (!imageRef.current) return;
 
-    fetch(imageRef.current.src)
-      .then((response) => response.blob())
-      .then((blob) => {
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = `${selectedFormat
-          .replace(/\s+/g, "_")
-          .toLowerCase()}.png`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(link);
-      });
+    try {
+      const response = await fetch(imageRef.current.src);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch image for download");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${selectedFormat.replace(/\s+/g, "_").toLowerCase()}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.log(error);
+      alert("Failed to download image");
+    }
   };
 
   return (

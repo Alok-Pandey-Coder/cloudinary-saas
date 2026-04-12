@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cloudinary SaaS
 
-## Getting Started
+Next.js app with:
 
-First, run the development server:
+- Clerk authentication
+- Cloudinary image/video upload
+- Prisma + PostgreSQL for video metadata
+
+## Local Setup
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Copy env template:
+
+```bash
+# macOS/Linux
+cp .env.example .env.local
+
+# Windows PowerShell
+Copy-Item .env.example .env.local
+```
+
+3. Fill all values in `.env.local`.
+
+4. Apply database migrations:
+
+```bash
+npx prisma migrate deploy
+```
+
+5. Run dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Required Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Use `.env.example` as the source of truth.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `DATABASE_URL`
+- `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`
+- `CLOUDINARY_API_KEY`
+- `CLOUDINARY_API_SECRET`
+- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+- `CLERK_SECRET_KEY`
+- `NEXT_PUBLIC_CLERK_SIGN_IN_URL` (recommended: `/sign-in`)
+- `NEXT_PUBLIC_CLERK_SIGN_UP_URL` (recommended: `/sign-up`)
+- `NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL` (recommended: `/home`)
+- `NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL` (recommended: `/home`)
 
-## Learn More
+## Deploy With Clerk (Vercel)
 
-To learn more about Next.js, take a look at the following resources:
+1. Push your repository to GitHub.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. In Clerk Dashboard:
+- Create/select your application.
+- Set sign-in URL to `/sign-in` and sign-up URL to `/sign-up`.
+- Add your production domain in Allowed Origins/Redirect URLs.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. In Vercel:
+- Import the repository.
+- Add all environment variables from `.env.example` (with real values).
+- Ensure both Preview and Production environments get the values.
 
-## Deploy on Vercel
+4. Deploy.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. After first deploy, run migrations against production DB:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npx prisma migrate deploy
+```
+
+## Build Command
+
+The project build command is already configured in `package.json`:
+
+```bash
+npm run build
+```
+
+It runs:
+
+```bash
+prisma generate && next build
+```
+
+## Troubleshooting
+
+- If auth pages fail, re-check `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY`.
+- If upload APIs fail, re-check Cloudinary keys.
+- If API routes fail on DB access, verify `DATABASE_URL` and run Prisma migrations.

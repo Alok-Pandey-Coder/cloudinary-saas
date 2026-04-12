@@ -81,37 +81,37 @@ export default function SocialShare() {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-6 text-center">
+    <div className="mx-auto w-full max-w-4xl px-3 py-3 sm:px-4 sm:py-4">
+      <h1 className="mb-4 text-center text-xl font-bold sm:mb-5 sm:text-2xl lg:text-3xl">
         Social Media Image Creator
       </h1>
 
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title mb-4">Upload an Image</h2>
+      <div className="card border border-base-300 bg-base-100 shadow-sm">
+        <div className="card-body p-4 sm:p-5">
+          <h2 className="card-title mb-3 text-lg sm:mb-4 sm:text-xl">Upload an Image</h2>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Choose an image file</span>
+              <span className="label-text text-sm">Choose an image file</span>
             </label>
             <input
               type="file"
               onChange={handleFileUpload}
-              className="file-input file-input-bordered file-input-primary w-full"
+              className="file-input file-input-bordered file-input-primary file-input-sm w-full sm:file-input-md"
             />
           </div>
 
           {isUploading && (
-            <div className="mt-4">
+            <div className="mt-3 sm:mt-4">
               <progress className="progress progress-primary w-full"></progress>
             </div>
           )}
 
           {uploadedImage && (
-            <div className="mt-6">
-              <h2 className="card-title mb-4">Select Social Media Format</h2>
+            <div className="mt-5 sm:mt-6">
+              <h2 className="card-title mb-3 text-lg sm:mb-4 sm:text-xl">Select Social Media Format</h2>
               <div className="form-control">
                 <select
-                  className="select select-bordered w-full"
+                  className="select select-bordered select-sm w-full sm:select-md"
                   value={selectedFormat}
                   onChange={(e) =>
                     setSelectedFormat(e.target.value as SocialFormat)
@@ -125,12 +125,12 @@ export default function SocialShare() {
                 </select>
               </div>
 
-              <div className="mt-6 relative">
-                <h3 className="text-lg font-semibold mb-2">Preview:</h3>
-                <div className="flex justify-center">
+              <div className="relative mt-5 sm:mt-6">
+                <h3 className="mb-2 text-base font-semibold sm:text-lg">Preview:</h3>
+                <div className="relative overflow-hidden rounded-xl border border-base-300 bg-base-200/40 p-2 sm:p-3">
                   {isTransforming && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-base-100 bg-opacity-50 z-10">
-                      <span className="loading loading-spinner loading-lg"></span>
+                    <div className="absolute inset-0 z-10 flex items-center justify-center bg-base-100/60">
+                      <span className="loading loading-spinner loading-md"></span>
                     </div>
                   )}
                   <CldImage
@@ -142,14 +142,15 @@ export default function SocialShare() {
                     crop="fill"
                     aspectRatio={socialFormats[selectedFormat].aspectRatio}
                     gravity="auto"
+                    className="h-auto w-full max-w-full rounded-lg"
                     ref={imageRef}
                     onLoad={() => setIsTransforming(false)}
                   />
                 </div>
               </div>
 
-              <div className="card-actions justify-end mt-6">
-                <button className="btn btn-primary" onClick={handleDownload}>
+              <div className="card-actions mt-5 justify-stretch sm:mt-6 sm:justify-end">
+                <button className="btn btn-primary btn-sm w-full sm:btn-md sm:w-auto" onClick={handleDownload}>
                   Download for {selectedFormat}
                 </button>
               </div>

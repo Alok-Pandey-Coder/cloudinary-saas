@@ -45,46 +45,47 @@ function VideoUpload() {
 
 
     return (
-        <div className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold mb-4">Upload Video</h1>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="container mx-auto max-w-2xl p-3 sm:p-4">
+          <h1 className="mb-3 text-xl font-bold lg:text-2xl">Upload Video</h1>
+          <form onSubmit={handleSubmit} className="space-y-3 rounded-xl border border-base-300 bg-base-100 p-4 sm:p-5">
             <div>
               <label className="label">
-                <span className="label-text">Title</span>
+                <span className="label-text text-sm">Title</span>
               </label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="input input-bordered w-full"
+                className="input input-bordered input-sm w-full sm:input-md"
                 required
               />
             </div>
             <div>
               <label className="label">
-                <span className="label-text">Description</span>
+                <span className="label-text text-sm">Description</span>
               </label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="textarea textarea-bordered w-full"
+                className="textarea textarea-bordered textarea-sm w-full sm:textarea-md"
+                rows={4}
               />
             </div>
             <div>
               <label className="label">
-                <span className="label-text">Video File</span>
+                <span className="label-text text-sm">Video File</span>
               </label>
               <input
                 type="file"
                 accept="video/*"
                 onChange={(e) => setFile(e.target.files?.[0] || null)}
-                className="file-input file-input-bordered w-full"
+                className="file-input file-input-bordered file-input-sm w-full sm:file-input-md"
                 required
               />
             </div>
             <button
               type="submit"
-              className="btn btn-primary"
+              className="btn btn-primary btn-sm w-full sm:btn-md sm:w-auto"
               disabled={isUploading}
             >
               {isUploading ? "Uploading..." : "Upload Video"}
